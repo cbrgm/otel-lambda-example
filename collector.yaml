@@ -6,6 +6,7 @@ receivers:
 
 exporters:
   awsemf:
+    namespace: 'developer-experience'
   awsxray:
 
 service:
