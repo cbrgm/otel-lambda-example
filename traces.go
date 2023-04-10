@@ -11,11 +11,12 @@ import (
 	"google.golang.org/grpc"
 )
 
-func setupTracing(ctx context.Context, res *resource.Resource) *trace.TracerProvider {
-	// communicate on localhost to the ADOT collector
-	// required to generate xray compatible IDs
-	t_exp, err := otlptracegrpc.New(ctx,
+//	type TracingLambdaHandler struct {
+//		tracing *trace.TracerProvider
+//	}
 
+func setupTracing(ctx context.Context, res *resource.Resource) *trace.TracerProvider {
+	t_exp, err := otlptracegrpc.New(ctx,
 		otlptracegrpc.WithInsecure(),
 		otlptracegrpc.WithEndpoint("0.0.0.0:4317"),
 		otlptracegrpc.WithDialOption(grpc.WithBlock()),

@@ -11,7 +11,6 @@ import (
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
 	metricsglobal "go.opentelemetry.io/otel/metric/global"
-	"go.opentelemetry.io/otel/metric/instrument"
 	"go.opentelemetry.io/otel/sdk/metric"
 	"go.opentelemetry.io/otel/sdk/resource"
 	semconv "go.opentelemetry.io/otel/semconv/v1.4.0"
@@ -85,8 +84,6 @@ func doSomething(ctx context.Context, iteration int) {
 
 	counter, err := meter.Int64Counter(
 		"request_handled",
-		instrument.WithUnit("1"),
-		instrument.WithDescription("Requests Handled"),
 	)
 	if err != nil {
 		fmt.Printf("counter failed: %s", err)

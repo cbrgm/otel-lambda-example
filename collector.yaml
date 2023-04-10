@@ -15,4 +15,5 @@ service:
       exporters: [awsxray]
     metrics:
       receivers: [otlp]
+      # need to add awsemf for metrics, default is logging
       exporters: [awsemf]
