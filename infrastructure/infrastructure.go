@@ -14,7 +14,7 @@ type InfrastructureStackProps struct {
 }
 
 const (
-	otelCollectorVersion = "0-66-0"
+	otelCollectorVersion = "0-72-0"
 	architecture         = "arm64"
 )
 

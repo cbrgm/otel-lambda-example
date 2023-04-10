@@ -28,7 +28,7 @@ synth: build
 	cdk synth
 
 .PHONY: deploy
-deploy: clean build
+deploy: clean build-bootstrap
 	cdk deploy --all
 
 .PHONY: clean

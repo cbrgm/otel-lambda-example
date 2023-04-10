@@ -10,9 +10,10 @@ import (
 	"google.golang.org/grpc"
 )
 
-func setupMetrics(ctx context.Context, res *resource.Resource) {
+func setupMetrics(ctx context.Context, res *resource.Resource) *metric.MeterProvider {
 	// communicate on localhost to the ADOT collector
-	metricCollector, err := otlpmetricgrpc.New(ctx,
+	m_exp, err := otlpmetricgrpc.New(ctx,
+
 		otlpmetricgrpc.WithInsecure(),
 		otlpmetricgrpc.WithEndpoint("0.0.0.0:4317"),
 		otlpmetricgrpc.WithDialOption(grpc.WithBlock()),
@@ -21,14 +22,11 @@ func setupMetrics(ctx context.Context, res *resource.Resource) {
 		panic(err)
 	}
 
-	metricsProvider := metric.NewMeterProvider(
-		metric.WithReader(metric.NewPeriodicReader(metricCollector)),
+	mp := metric.NewMeterProvider(
+		metric.WithReader(metric.NewPeriodicReader(m_exp)),
 		metric.WithResource(res),
 	)
-	defer func() {
-		if err = metricsProvider.Shutdown(ctx); err != nil {
-			panic(err)
-		}
-	}()
-	global.SetMeterProvider(metricsProvider)
+	global.SetMeterProvider(mp)
+
+	return mp
 }
