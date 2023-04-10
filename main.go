@@ -41,9 +41,7 @@ func main() {
 	mp := setupMetrics(ctx, res)
 	tp := setupTracing(ctx, res)
 
-	lambdaHandler := &LambdaHandler{
-		metrics: mp,
-	}
+	lambdaHandler := &LambdaHandler{}
 
 	defer func() {
 		if err := tp.Shutdown(ctx); err != nil {
@@ -65,9 +63,7 @@ func main() {
 	)
 }
 
-type LambdaHandler struct {
-	metrics *metric.MeterProvider
-}
+type LambdaHandler struct{}
 
 func (h *LambdaHandler) HandleRequest(ctx context.Context, _ any) (any, error) {
 	for i := 0; i < 10; i++ {
