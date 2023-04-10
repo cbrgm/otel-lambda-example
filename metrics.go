@@ -5,12 +5,12 @@ import (
 
 	"go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetricgrpc"
 	"go.opentelemetry.io/otel/metric/global"
-	"go.opentelemetry.io/otel/sdk/metric"
+	sdkMetric "go.opentelemetry.io/otel/sdk/metric"
 	"go.opentelemetry.io/otel/sdk/resource"
 	"google.golang.org/grpc"
 )
 
-func setupMetrics(ctx context.Context, res *resource.Resource) *metric.MeterProvider {
+func setupMetrics(ctx context.Context, res *resource.Resource) *sdkMetric.MeterProvider {
 	m_exp, err := otlpmetricgrpc.New(ctx,
 		otlpmetricgrpc.WithInsecure(),
 		otlpmetricgrpc.WithEndpoint("0.0.0.0:4317"),
@@ -20,9 +20,9 @@ func setupMetrics(ctx context.Context, res *resource.Resource) *metric.MeterProv
 		panic(err)
 	}
 
-	mp := metric.NewMeterProvider(
-		metric.WithReader(metric.NewPeriodicReader(m_exp)),
-		metric.WithResource(res),
+	mp := sdkMetric.NewMeterProvider(
+		sdkMetric.WithReader(sdkMetric.NewPeriodicReader(m_exp)),
+		sdkMetric.WithResource(res),
 	)
 	global.SetMeterProvider(mp)
 
